@@ -1,10 +1,10 @@
 from bs4 import BeautifulSoup
 import requests
 
-def get_links(get_all:bool=False):
+def get_links(get_all:str="False"):
     link_list = []
     counter = 0
-    if get_all: 
+    if get_all == "True": 
         for page in range(368 + 1):
             r = requests.get(f"https://neoauto.com/venta-de-autos-usados?page={page}").text
             soup_t = BeautifulSoup(r,'lxml')
