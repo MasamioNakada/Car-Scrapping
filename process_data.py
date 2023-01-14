@@ -32,7 +32,6 @@ class SaveData():
     def __init__(self,link_list:list) -> None:
 
         report_list_list = []
-
         for link in link_list:
             print(f"Processing {link}")
             ex = ExtractNeoAutos(link)

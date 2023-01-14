@@ -19,6 +19,8 @@ def get_links(get_all:bool=False):
         soup_t = BeautifulSoup(r,"lxml")
         car_list = soup_t.find_all('a',attrs={'class':'c-results-use__link'})
         for car in car_list:
+            counter += 1
+            print(f"Page: 1, append: {counter} page")
             link_list.append(f'https://neoauto.com/{car["href"]}')
     
     return link_list 
