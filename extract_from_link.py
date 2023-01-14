@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 
 class ExtractNeoAutos():
-    def __init__(self,link:str) -> None:
+    def __init__(self,link:str) -> "None":
         r = requests.get(link).text
         self.soup = BeautifulSoup(r,'lxml')
     def title(self):
@@ -49,23 +49,22 @@ class ExtractNeoAutos():
         report.update(self.user_use())
         report.update(self.specs())
 
-        report.setdefault('title', None)
-        report.setdefault('price', None)
-        report.setdefault('description', None)
-        report.setdefault('Año Modelo', None)
-        report.setdefault('Kilometraje', None)
-        report.setdefault('Transmisión', None)
-        report.setdefault('Combustible', None)
-        report.setdefault('Cilindrada', None)
-        report.setdefault('Placa', None)
-        report.setdefault('Categoría', None)
-        report.setdefault('Marca', None)
-        report.setdefault('Modelo', None)
-        report.setdefault('Año de fabricación', None)
-        report.setdefault('Número de puertas', None)
-        report.setdefault('Tracción', None)
-        report.setdefault('Color', None)
-        report.setdefault('Número cilindros', None)
+        report.setdefault('title', "None")
+        report.setdefault('price', "None")
+        report.setdefault('description', "None")
+        report.setdefault('Año Modelo', "None")
+        report.setdefault('Kilometraje', "None")
+        report.setdefault('Transmisión', "None")
+        report.setdefault('Combustible', "None")
+        report.setdefault('Cilindrada', "None")
+        report.setdefault('Placa', "None")
+        report.setdefault('Categoría', "None")
+        report.setdefault('Marca', "None")
+        report.setdefault('Modelo', "None")
+        report.setdefault('Número de puertas', "None")
+        report.setdefault('Tracción', "None")
+        report.setdefault('Color', "None")
+        report.setdefault('Número cilindros', "None")
 
         return report
 
