@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import os
 import csv
+import pandas as pd
 
 def link_register(link:str):
     if not (os.path.exists("links.csv")):
@@ -29,7 +30,7 @@ def get_links(get_all:str="False"):
                 link_list.append(link)
                 link_register(link)
 
-    else:
+    if get_all == "False":
         r = requests.get("https://neoauto.com/venta-de-autos-usados?page=1").text
         soup_t = BeautifulSoup(r,"lxml")
         car_list = soup_t.find_all('a',attrs={'class':'c-results-use__link'})
@@ -39,5 +40,8 @@ def get_links(get_all:str="False"):
             link = f'https://neoauto.com/{car["href"]}'
             link_list.append(link)
             link_register(link)
+
+    if get_all == "from_csv":
+        df = pd.read_csv("links.csv")
     
     return link_list 
