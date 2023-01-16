@@ -1,5 +1,18 @@
 from bs4 import BeautifulSoup
 import requests
+import os
+import csv
+
+def link_register(link:str):
+    if not (os.path.exists("links.csv")):
+        field = ["link"]
+        with open("links.csv","a") as f:
+            writer = csv.writer(f)
+            writer.writerow(field)
+    
+    with open(r"links.csv","a") as f:
+        writer = csv.writer(f)
+        writer.writerow([link])
 
 def get_links(get_all:str="False"):
     link_list = []
@@ -12,7 +25,9 @@ def get_links(get_all:str="False"):
             for car in car_list:
                 counter += 1
                 print(f"Page: {page}, append: {counter} page")
-                link_list.append(f'https://neoauto.com/{car["href"]}')
+                link = f'https://neoauto.com/{car["href"]}'
+                link_list.append(link)
+                link_register(link)
 
     else:
         r = requests.get("https://neoauto.com/venta-de-autos-usados?page=1").text
@@ -21,6 +36,8 @@ def get_links(get_all:str="False"):
         for car in car_list:
             counter += 1
             print(f"Page: 1, append: {counter} page")
-            link_list.append(f'https://neoauto.com/{car["href"]}')
+            link = f'https://neoauto.com/{car["href"]}'
+            link_list.append(link)
+            link_register(link)
     
     return link_list 

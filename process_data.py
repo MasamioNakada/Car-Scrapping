@@ -1,5 +1,6 @@
 import csv  
 import os
+#import requests
 #import sqlite3
 
 from extract_from_link import ExtractNeoAutos
@@ -115,32 +116,72 @@ class SaveData():
    
         
 
-#def save_csv(link_list:list):
-#    for link in link_list:
-#        print(link)
-#        ex = ExtractNeoAutos(link)
-#        re = ex.get_all()
-#        clean_re  = { "title":re['title'],
-#                    "price":float(re['price'].replace(",","")), 
-#                    "description":re["description"],
-#                    "Año de fabricación": re["Año Modelo"],
-#                    "Kilometraje":float(re["Kilometraje"][:-3].replace(",","")),
-#                    "Transmisión":re["Transmisión"],
-#                    "Combustible":re["Combustible"],
-#                    "Cilindrada":float(re["Cilindrada"][:-3].replace(",","")),
-#                    "Placa":re["Placa"],
-#                    "Categoría":re["Categoría"],
-#                    "Marca":re["Marca"],
-#                    "Modelo":re["Modelo"],
-#                    "Año de fabricación":re["Año de fabricación"],
-#                    "Número de puertas":re["Número de puertas"],
-#                    "Tracción":re["Tracción"],
-#                    "Color":re["Color"],
-#                    "Número cilindros":re["Número cilindros"]}
-#        with open(r'data.csv', 'a') as f:
-#            writer = csv.writer(f)
-#            writer.writerow(list(clean_re.values()))
-#    return True
+def save_csv(link_list:list):
+    if not (os.path.exists("data.csv")):
+        fields=['title',
+         'price',
+         'description',
+         'Año de fabricación',
+         'Kilometraje',
+         'Transmisión',
+         'Combustible',
+         'Cilindrada',
+         'Placa',
+         'Categoría',
+         'Marca',
+         'Modelo',
+         'Número de puertas',
+         'Tracción',
+         'Color',
+         'Número cilindros']
+        with open(r'data.csv', 'a') as f:
+            writer = csv.writer(f)
+            writer.writerow(fields)
+
+    for link in link_list:
+        print(f"Processing {link}")
+        ex = ExtractNeoAutos(link)
+        re = ex.get_all()
+
+        try:
+            price = float(re['price'].replace(",",""))
+        except:
+            price = "None"
+        
+        try:
+            km = float(re["Kilometraje"][:-3].replace(",",""))
+        except:
+            km = "None"
+        try:
+            cc = float(re["Cilindrada"][:-3].replace(",",""))
+        except:
+            cc = "None"
+            
+        clean_re  = { "title":re['title'],
+                    "price":price, 
+                    "description":re["description"],
+                    "year_fabrication": re["Año Modelo"],
+                    "km":km,
+                    "transmission":re["Transmisión"],
+                    "fuel":re["Combustible"],
+                    "cc":cc,
+                    "placa":re["Placa"],
+                    "category":re["Categoría"],
+                    "brand":re["Marca"],
+                    "model":re["Modelo"],
+                    "doors":re["Número de puertas"],
+                    "traccion":re["Tracción"],
+                    "color":re["Color"],
+                    "number_cilinder":re["Número cilindros"]}
+    
+        #url = 'http://127.0.0.1:8090/api/collections/car_data/records'
+        #requests.post(url, json=clean_re)
+
+        with open(r'data.csv', 'a') as f:
+            writer = csv.writer(f)
+            writer.writerow(list(clean_re.values()))
+
+    return True
 
 #def save_db(link_list:list):
 #    for link in link_list:
